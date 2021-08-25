@@ -17,6 +17,7 @@ Note that this module is only compatible with SQLite 3.6.16 or newer.
 
 == SYNOPSIS
 
+```ruby
   require "sqlite3"
   
   # Open a database
@@ -24,29 +25,25 @@ Note that this module is only compatible with SQLite 3.6.16 or newer.
   
   # Create a table
   rows = db.execute <<-SQL
-    create table numbers (
-      name varchar(30),
-      val int
-    );
+    CREATE TABLE numbers (name varchar(30), val int);
   SQL
   
   # Execute a few inserts
-  {
-    "one" => 1,
-    "two" => 2,
-  }.each do |pair|
-    db.execute "insert into numbers values ( ?, ? )", pair
-  end
 
-  # Find a few rows
-  db.execute( "select * from numbers" ) do |row|
-    p row
-  end
+  db.execute("INSER INTO numbers VALUES ( ?, ? )", ['one', 1])
+  db.execute("INSER INTO numbers VALUES ( ?, ? )", ['two', 2])
+  db.execute("INSER INTO numbers VALUES ( ?, ? )", ['three', 3])
+
+
+  # Find all rows in numbers table
+
+  db.execute("SELECT * FROM numbers")
+
 
   # Create another table with multiple columns
 
   db.execute <<-SQL
-    create table students (
+    CREATE TABLE students (
       name varchar(50),
       email varchar(50),
       grade varchar(5),
@@ -55,13 +52,12 @@ Note that this module is only compatible with SQLite 3.6.16 or newer.
   SQL
 
   # Execute inserts with parameter markers
-  db.execute("INSERT INTO students (name, email, grade, blog) 
-              VALUES (?, ?, ?, ?)", ["Jane", "me@janedoe.com", "A", "http://blog.janedoe.com"])
+  db.execute("INSERT INTO students (name, email, grade, blog) VALUES (?, ?, ?, ?)", ["Jane", "me@janedoe.com", "A", "http://blog.janedoe.com"])
   
-  db.execute( "select * from students" ) do |row|
+  db.execute("SELECT * FROM students" ) do |row|
     p row
   end
-
+```
 
 == Compilation and Installation
 
